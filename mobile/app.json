@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "CultureLens",
+    "slug": "culturelens",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow CultureLens to access your camera to recognize art and monuments."
+        }
+      ]
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.culturelens.app"
+    },
+    "android": {
+      "package": "com.culturelens.app"
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}

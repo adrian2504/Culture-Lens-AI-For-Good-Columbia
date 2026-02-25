@@ -1,0 +1,86 @@
+.camera-container {
+  min-height: 100vh;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+}
+
+.camera-view {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+}
+
+.camera-overlay {
+  text-align: center;
+}
+
+.instruction {
+  color: white;
+  font-size: 18px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 15px 30px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.camera-frame {
+  width: 300px;
+  height: 300px;
+  border: 3px solid white;
+  border-radius: 10px;
+  margin: 0 auto;
+}
+
+.demo-note {
+  color: #aaa;
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+.camera-controls {
+  padding: 40px 20px;
+  text-align: center;
+  background: #000;
+}
+
+.capture-button {
+  background: #007AFF;
+  color: white;
+  border: none;
+  padding: 20px 60px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-bottom: 20px;
+}
+
+.capture-button:hover:not(.processing) {
+  background: #0056b3;
+  transform: scale(1.05);
+}
+
+.capture-button.processing {
+  background: #666;
+  cursor: not-allowed;
+}
+
+.back-button {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 12px 30px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.back-button:hover {
+  background: white;
+  color: black;
+}
