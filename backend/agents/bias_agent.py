@@ -2,80 +2,24 @@
 Bias & Ethics Agent - AI for Good Signal
 Provides transparency about source dominance and missing perspectives
 """
+import json
+from pathlib import Path
 
 
 class BiasAgent:
     def __init__(self):
-        # Bias analysis database
-        self.bias_data = {
-            "taj_mahal": {
-                "source_dominance": {
-                    "colonial_era": 0.45,
-                    "indian_academic": 0.35,
-                    "local_oral": 0.10,
-                    "international": 0.10
-                },
-                "missing_perspectives": [
-                    "Artisan families and their economic conditions",
-                    "Environmental impact of marble quarrying",
-                    "Perspectives of displaced communities during construction"
-                ],
-                "power_imbalances": [
-                    "Most English-language sources reflect colonial-era British interpretations",
-                    "Romantic narratives often overshadow labor and economic realities",
-                    "Limited documentation of worker experiences"
-                ],
-                "representation_gaps": {
-                    "women": "Mumtaz Mahal's own voice and agency rarely centered",
-                    "workers": "Minimal documentation of artisan perspectives",
-                    "local_communities": "Contemporary community voices underrepresented"
-                }
-            },
-            "colosseum": {
-                "source_dominance": {
-                    "roman_elite": 0.50,
-                    "european_academic": 0.35,
-                    "archaeological": 0.15
-                },
-                "missing_perspectives": [
-                    "Enslaved people who built and maintained it",
-                    "Gladiators' own accounts",
-                    "Non-Roman visitors' perspectives"
-                ],
-                "power_imbalances": [
-                    "Historical records written by Roman elite, not common people",
-                    "Glorification of Roman 'civilization' often ignores violence and slavery",
-                    "Limited non-European interpretations in mainstream sources"
-                ],
-                "representation_gaps": {
-                    "enslaved_people": "Voices of those who built it largely absent",
-                    "gladiators": "Mostly portrayed through elite Roman lens",
-                    "victims": "Those who died in spectacles rarely memorialized"
-                }
-            },
-            "great_wall": {
-                "source_dominance": {
-                    "chinese_official": 0.50,
-                    "western_academic": 0.30,
-                    "archaeological": 0.20
-                },
-                "missing_perspectives": [
-                    "Nomadic peoples on the other side of the wall",
-                    "Forced laborers who died during construction",
-                    "Border communities' daily experiences"
-                ],
-                "power_imbalances": [
-                    "Narratives dominated by imperial Chinese perspective",
-                    "Western sources often exoticize or oversimplify",
-                    "Nomadic peoples' perspectives rarely included"
-                ],
-                "representation_gaps": {
-                    "workers": "Millions died building it, few records of their lives",
-                    "nomadic_peoples": "Often portrayed as 'barbarians' rather than complex societies",
-                    "border_communities": "Daily life along the wall underexplored"
-                }
-            }
-        }
+        # Load bias data from JSON file
+        data_path = Path(__file__).parent.parent / "data" / "bias_data.json"
+        try:
+            with open(data_path, 'r', encoding='utf-8') as f:
+                self.bias_data = json.load(f)
+            print(f"✅ Loaded bias data for {len(self.bias_data)} landmarks")
+        except FileNotFoundError:
+            print("⚠️  bias_data.json not found")
+            self.bias_data = {}
+        except json.JSONDecodeError as e:
+            print(f"⚠️  Error parsing bias_data.json: {e}")
+            self.bias_data = {}
     
     def analyze(self, object_id: str, lens: str) -> dict:
         """Analyze bias and provide transparency"""

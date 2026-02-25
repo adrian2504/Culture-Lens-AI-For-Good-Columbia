@@ -1,0 +1,115 @@
+{
+  "taj_mahal": {
+    "source_dominance": {
+      "colonial_era": 0.45,
+      "indian_academic": 0.35,
+      "local_oral": 0.10,
+      "international": 0.10
+    },
+    "missing_perspectives": [
+      "Artisan families and their economic conditions",
+      "Environmental impact of marble quarrying",
+      "Perspectives of displaced communities during construction"
+    ],
+    "power_imbalances": [
+      "Most English-language sources reflect colonial-era British interpretations",
+      "Romantic narratives often overshadow labor and economic realities",
+      "Limited documentation of worker experiences"
+    ],
+    "representation_gaps": {
+      "women": "Mumtaz Mahal's own voice and agency rarely centered",
+      "workers": "Minimal documentation of artisan perspectives",
+      "local_communities": "Contemporary community voices underrepresented"
+    }
+  },
+  "colosseum": {
+    "source_dominance": {
+      "roman_elite": 0.50,
+      "european_academic": 0.35,
+      "archaeological": 0.15
+    },
+    "missing_perspectives": [
+      "Enslaved people who built and maintained it",
+      "Gladiators' own accounts",
+      "Non-Roman visitors' perspectives"
+    ],
+    "power_imbalances": [
+      "Historical records written by Roman elite, not common people",
+      "Glorification of Roman 'civilization' often ignores violence and slavery",
+      "Limited non-European interpretations in mainstream sources"
+    ],
+    "representation_gaps": {
+      "enslaved_people": "Voices of those who built it largely absent",
+      "gladiators": "Mostly portrayed through elite Roman lens",
+      "victims": "Those who died in spectacles rarely memorialized"
+    }
+  },
+  "great_wall": {
+    "source_dominance": {
+      "chinese_official": 0.50,
+      "western_academic": 0.30,
+      "archaeological": 0.20
+    },
+    "missing_perspectives": [
+      "Nomadic peoples on the other side of the wall",
+      "Forced laborers who died during construction",
+      "Border communities' daily experiences"
+    ],
+    "power_imbalances": [
+      "Narratives dominated by imperial Chinese perspective",
+      "Western sources often exoticize or oversimplify",
+      "Nomadic peoples' perspectives rarely included"
+    ],
+    "representation_gaps": {
+      "workers": "Millions died building it, few records of their lives",
+      "nomadic_peoples": "Often portrayed as 'barbarians' rather than complex societies",
+      "border_communities": "Daily life along the wall underexplored"
+    }
+  },
+  "eiffel_tower": {
+    "source_dominance": {
+      "french_official": 0.45,
+      "european_academic": 0.30,
+      "tourist_accounts": 0.15,
+      "engineering_records": 0.10
+    },
+    "missing_perspectives": [
+      "Workers who built it and their conditions",
+      "Critics who opposed its construction",
+      "Impact on Parisian neighborhood residents"
+    ],
+    "power_imbalances": [
+      "Narratives focus on Eiffel and elite patrons",
+      "Working-class opposition rarely discussed",
+      "Colonial context of 1889 World's Fair overlooked"
+    ],
+    "representation_gaps": {
+      "workers": "Construction workers' experiences minimally documented",
+      "critics": "Contemporary opposition voices underrepresented",
+      "locals": "Impact on local residents rarely centered"
+    }
+  },
+  "acropolis": {
+    "source_dominance": {
+      "ancient_greek_elite": 0.40,
+      "european_classical": 0.35,
+      "archaeological": 0.20,
+      "modern_greek": 0.05
+    },
+    "missing_perspectives": [
+      "Enslaved people who built the monuments",
+      "Women's roles beyond mythology",
+      "Non-Athenian Greek perspectives"
+    ],
+    "power_imbalances": [
+      "Ancient sources written by elite men",
+      "European classical scholarship dominates interpretation",
+      "Modern Greek voices often marginalized"
+    ],
+    "representation_gaps": {
+      "enslaved_people": "Labor force largely invisible in records",
+      "women": "Roles limited to mythological narratives",
+      "non_athenians": "Other Greek city-states' views underrepresented"
+    }
+  }
+}

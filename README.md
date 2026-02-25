@@ -3,52 +3,89 @@
 **AI-powered, culturally adaptive guide for art, monuments, and heritage**
 
 ## One-Line Pitch
-CultureLens uses edge AI and culturally adaptive agents to help people understand art and heritage through many perspectives—not just one.
+CultureLens uses AI vision and culturally adaptive agents to help people understand art and heritage through many perspectives—not just one.
 
 ## Problem
 Most cultural guides present a single "official" narrative, often reflecting Western or colonial bias. This leads to cultural erasure and shallow understanding.
 
 ## Solution
 Multi-agent AI system that provides:
-- **Edge Vision Agent**: On-device image recognition (privacy-first)
+- **Vision Agent**: Real image recognition using OpenAI Vision API
 - **Knowledge Agent**: Verified historical facts
-- **Cultural Interpretation Agent**: Adaptive explanations across cultural lenses
-- **Community Sentiment Agent**: Aggregated lived experiences
+- **Cultural Interpretation Agent**: AI-generated adaptive explanations across cultural lenses
 - **Bias & Ethics Agent**: Source transparency and missing perspectives
 
+## Features
+- 📸 Upload or capture photos of landmarks
+- 🤖 AI-powered landmark recognition
+- 🌍 Multiple cultural perspectives (Local, Asian, European, Indigenous)
+- ⚖️ Bias transparency with source analysis
+- 🎨 Beautiful, responsive web interface
+
 ## Tech Stack
-- **Mobile**: React Native + Expo
-- **Edge AI**: TensorFlow Lite / MobileNet
+- **Frontend**: React web app
 - **Backend**: FastAPI + Python
-- **Agent System**: LangGraph-style orchestration
-- **Vector DB**: FAISS (local) or Pinecone
+- **AI**: OpenAI GPT-4o-mini (Vision + Text)
+- **Agent System**: Modular Python architecture
 
 ## Quick Start
 
-### Backend
+### 1. Backend Setup
 ```bash
 cd backend
+python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
+
+# Add your OpenAI API key to .env
+echo "USE_LLM=true" > .env
+echo "LLM_PROVIDER=openai" >> .env
+echo "OPENAI_API_KEY=your-key-here" >> .env
+
 python main.py
 ```
 
-### Mobile
+### 2. Web App Setup
 ```bash
-cd mobile
+cd webapp
 npm install
-npx expo start
+npm start
 ```
 
-## MVP Scope
-- 5 famous landmarks (Taj Mahal, Colosseum, Great Wall, Statue of Liberty, Pyramids)
-- 3 cultural lenses each (Local, Asian, European)
-- Edge image recognition
-- Mock community data
-- Bias transparency layer
+Open http://localhost:3000
+
+## Supported Landmarks
+- Taj Mahal
+- Colosseum
+- Great Wall of China
+- Statue of Liberty
+- Pyramids of Giza
+- Eiffel Tower
+- Big Ben
+- Christ the Redeemer
+- Machu Picchu
+- Petra
+- Angkor Wat
+- Stonehenge
+- Acropolis
+
+## How It Works
+
+1. **Upload/Capture**: User uploads or captures a photo of a landmark
+2. **Vision Recognition**: OpenAI Vision API identifies the landmark
+3. **Knowledge Retrieval**: System fetches verified historical facts
+4. **Cultural Interpretation**: AI generates perspective-specific narratives
+5. **Bias Analysis**: System shows source distribution and missing perspectives
+6. **User Exploration**: User can switch between different cultural lenses
 
 ## AI for Good Alignment
 ✅ Cultural preservation  
 ✅ Diversity & inclusion  
-✅ Accessibility (offline support)  
 ✅ Bias transparency  
-✅ Human-in-the-loop AI
+✅ Accessible education  
+✅ Respectful AI
+
+## Cost
+- Image recognition: ~$0.003 per image
+- Cultural interpretation: ~$0.0001 per lens
+- Total per lookup: ~$0.004 (very affordable)

@@ -3,12 +3,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
 import uvicorn
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 from agents.vision_agent import VisionAgent
 from agents.knowledge_agent import KnowledgeAgent
 from agents.cultural_agent import CulturalAgent
 from agents.bias_agent import BiasAgent
-import os
 
 # Optional: LLM-powered cultural agent
 USE_LLM = os.getenv("USE_LLM", "false").lower() == "true"
@@ -32,11 +36,16 @@ knowledge_agent = KnowledgeAgent()
 # Choose cultural agent: LLM or hardcoded
 if USE_LLM:
     provider = os.getenv("LLM_PROVIDER", "openai")
-    cultural_agent = LLMCulturalAgent(provider=provider)
-    print(f"✓ Using LLM Cultural Agent ({provider})")
+    try:
+        cultural_agent = LLMCulturalAgent(provider=provider)
+        print(f"✅ Using LLM Cultural Agent ({provider})")
+    except Exception as e:
+        print(f"⚠️  LLM initialization failed: {e}")
+        print("⚠️  Falling back to hardcoded cultural agent")
+        cultural_agent = CulturalAgent()
 else:
     cultural_agent = CulturalAgent()
-    print("✓ Using Hardcoded Cultural Agent (fast demo mode)")
+    print("✅ Using Hardcoded Cultural Agent (fast demo mode)")
 
 bias_agent = BiasAgent()
 
@@ -64,8 +73,12 @@ async def analyze_image(file: UploadFile = File(...)):
 def interpret_heritage(request: AnalysisRequest):
     """Multi-agent cultural interpretation pipeline"""
     
-    # 1. Knowledge Retrieval
-    facts = knowledge_agent.get_facts(request.object_id)
+    # 1. Knowledge Retrieval (pass detected name if available)
+    facts = knowledge_agent.get_facts(
+        request.object_id,
+        detected_name=request.user_context.get("detected_name") if request.user_context else None,
+        location=request.user_context.get("location") if request.user_context else None
+    )
     
     # 2. Cultural Interpretation
     interpretation = cultural_agent.interpret(

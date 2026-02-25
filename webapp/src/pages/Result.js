@@ -23,6 +23,10 @@ function Result({ navigateTo, landmark }) {
       const response = await axios.post(`${API_URL}/interpret`, {
         object_id: landmark.objectId,
         cultural_lens: currentLens,
+        user_context: {
+          detected_name: landmark.detectedName,
+          location: landmark.location
+        }
       });
       setData(response.data);
     } catch (err) {
@@ -98,28 +102,40 @@ function Result({ navigateTo, landmark }) {
       </div>
 
       {/* Bias Report */}
-      <div className="section bias-section">
-        <h2>⚖️ Bias Transparency</h2>
-        <p className="bias-note">{data.bias_report.transparency_note}</p>
-        
-        <h3>Source Distribution:</h3>
-        {Object.entries(data.bias_report.source_dominance).map(([source, percent]) => (
-          <div key={source} className="source-bar">
-            <span className="source-label">{source.replace('_', ' ')}</span>
-            <div className="bar-container">
-              <div className="bar" style={{ width: `${percent * 100}%` }}></div>
-            </div>
-            <span className="source-percent">{Math.round(percent * 100)}%</span>
-          </div>
-        ))}
+      {data.bias_report && (
+        <div className="section bias-section">
+          <h2>⚖️ Bias Transparency</h2>
+          {data.bias_report.transparency_note && (
+            <p className="bias-note">{data.bias_report.transparency_note}</p>
+          )}
+          
+          {data.bias_report.source_dominance && (
+            <>
+              <h3>Source Distribution:</h3>
+              {Object.entries(data.bias_report.source_dominance).map(([source, percent]) => (
+                <div key={source} className="source-bar">
+                  <span className="source-label">{source.replace('_', ' ')}</span>
+                  <div className="bar-container">
+                    <div className="bar" style={{ width: `${percent * 100}%` }}></div>
+                  </div>
+                  <span className="source-percent">{Math.round(percent * 100)}%</span>
+                </div>
+              ))}
+            </>
+          )}
 
-        <h3>Missing Perspectives:</h3>
-        <ul className="missing-list">
-          {data.bias_report.missing_perspectives.map((perspective, idx) => (
-            <li key={idx}>{perspective}</li>
-          ))}
-        </ul>
-      </div>
+          {data.bias_report.missing_perspectives && data.bias_report.missing_perspectives.length > 0 && (
+            <>
+              <h3>Missing Perspectives:</h3>
+              <ul className="missing-list">
+                {data.bias_report.missing_perspectives.map((perspective, idx) => (
+                  <li key={idx}>{perspective}</li>
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
+      )}
 
       <button className="home-button" onClick={() => navigateTo('home')}>
         ← Back to Home

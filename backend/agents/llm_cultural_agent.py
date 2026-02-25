@@ -1,6 +1,6 @@
 """
 LLM-Powered Cultural Interpretation Agent
-Uses OpenAI/Anthropic/Local LLM for dynamic interpretations
+Uses OpenAI for dynamic interpretations with efficient prompting
 """
 import os
 from typing import Optional
@@ -12,8 +12,11 @@ class LLMCulturalAgent:
         
         if provider == "openai":
             from openai import OpenAI
-            self.client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-            self.model = "gpt-4o-mini"
+            api_key = os.getenv("OPENAI_API_KEY")
+            if not api_key:
+                raise ValueError("OPENAI_API_KEY not found in environment variables")
+            self.client = OpenAI(api_key=api_key)
+            self.model = "gpt-4o-mini"  # Fast and cost-effective
         elif provider == "anthropic":
             from anthropic import Anthropic
             self.client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
@@ -32,59 +35,70 @@ class LLMCulturalAgent:
         
         prompt = self._build_prompt(object_id, lens, facts)
         
-        if self.provider == "anthropic":
-            response = self.client.messages.create(
-                model=self.model,
-                max_tokens=1024,
-                messages=[{"role": "user", "content": prompt}]
-            )
-            narrative = response.content[0].text
-        else:  # OpenAI or local
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0.7,
-                max_tokens=500
-            )
-            narrative = response.choices[0].message.content
-        
-        return {
-            "perspective": self._get_perspective_name(lens),
-            "narrative": narrative.strip(),
-            "emotional_context": self._extract_emotion(narrative),
-            "generated_by": f"{self.provider}/{self.model}"
-        }
+        try:
+            if self.provider == "anthropic":
+                response = self.client.messages.create(
+                    model=self.model,
+                    max_tokens=400,
+                    messages=[{"role": "user", "content": prompt}]
+                )
+                narrative = response.content[0].text
+            else:  # OpenAI or local
+                response = self.client.chat.completions.create(
+                    model=self.model,
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": "You are a culturally-aware heritage guide providing respectful, nuanced interpretations from diverse perspectives."
+                        },
+                        {
+                            "role": "user",
+                            "content": prompt
+                        }
+                    ],
+                    temperature=0.7,
+                    max_tokens=400
+                )
+                narrative = response.choices[0].message.content
+            
+            return {
+                "perspective": self._get_perspective_name(lens),
+                "narrative": narrative.strip(),
+                "emotional_context": self._extract_emotion(narrative),
+                "generated_by": f"{self.provider}/{self.model}"
+            }
+        except Exception as e:
+            print(f"LLM Error: {e}")
+            return {
+                "perspective": self._get_perspective_name(lens),
+                "narrative": f"Error generating interpretation: {str(e)}",
+                "emotional_context": "Error",
+                "generated_by": f"{self.provider}/error"
+            }
     
     def _build_prompt(self, object_id: str, lens: str, facts: dict) -> str:
-        """Build culturally-aware prompt"""
+        """Build culturally-aware prompt with efficient token usage"""
         
         lens_instructions = {
-            "local": "Emphasize local community perspectives, national identity, lived experiences, and contemporary relevance. Focus on how local people relate to this heritage today.",
-            "asian": "Provide an Asian cultural perspective, emphasizing regional context, historical connections across Asia, aesthetic traditions, and how this fits into broader Asian heritage.",
-            "european": "Offer a European perspective, focusing on architectural analysis, historical parallels to European heritage, and how European scholars and visitors have interpreted this site.",
-            "indigenous": "Center indigenous and pre-colonial perspectives, highlighting displaced communities, land history, and narratives often overlooked in dominant historical accounts.",
-            "neutral": "Provide an academic, neutral interpretation focusing on verified historical facts without cultural bias."
+            "local": "Local community: national identity, lived experiences, contemporary relevance, how locals relate to this heritage today.",
+            "asian": "Asian perspective: regional context, historical connections across Asia, aesthetic traditions, shared heritage.",
+            "european": "European view: architectural analysis, historical parallels, how European scholars interpret this site.",
+            "indigenous": "Indigenous lens: pre-colonial perspectives, displaced communities, land history, overlooked narratives.",
+            "neutral": "Academic/neutral: verified historical facts without cultural bias."
         }
         
         instruction = lens_instructions.get(lens, lens_instructions["neutral"])
         
-        return f"""You are a culturally-aware heritage guide. Provide a {lens} cultural interpretation of the following monument.
+        # Efficient prompt - minimal tokens, clear instructions
+        return f"""Heritage site: {facts.get('name')}
+Location: {facts.get('location')}
+Built: {facts.get('built')}
+Context: {facts.get('purpose')}
 
-Monument: {facts.get('name', object_id)}
-Location: {facts.get('location', 'Unknown')}
-Built: {facts.get('built', 'Unknown')}
-Historical Context: {facts.get('summary', 'No summary available')}
+Lens: {lens.upper()}
+Focus: {instruction}
 
-Cultural Lens: {lens.upper()}
-Instructions: {instruction}
-
-Write a 3-4 sentence interpretation that:
-1. Respects the chosen cultural perspective
-2. Provides meaningful context beyond basic facts
-3. Acknowledges emotional and cultural significance
-4. Avoids stereotypes and oversimplification
-
-Interpretation:"""
+Write 3-4 sentences providing meaningful cultural context beyond basic facts. Be respectful, avoid stereotypes, acknowledge emotional significance."""
     
     def _get_perspective_name(self, lens: str) -> str:
         names = {
@@ -97,7 +111,7 @@ Interpretation:"""
         return names.get(lens, f"{lens.title()} Perspective")
     
     def _extract_emotion(self, narrative: str) -> str:
-        """Simple emotion extraction (could use sentiment analysis)"""
+        """Simple emotion extraction"""
         emotion_keywords = {
             "pride": ["pride", "proud", "achievement", "glory"],
             "reverence": ["sacred", "reverence", "respect", "honor"],
