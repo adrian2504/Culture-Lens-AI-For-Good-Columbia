@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Map Diagnostic Tool</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0f172a;
+      color: white;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      margin-bottom: 30px;
+      color: #60a5fa;
+    }
+    
+    .section {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .section h2 {
+      color: #34d399;
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+    
+    .test-result {
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      font-family: monospace;
+    }
+    
+    .pass {
+      background: rgba(52, 211, 153, 0.2);
+      border-left: 4px solid #34d399;
+    }
+    
+    .fail {
+      background: rgba(239, 68, 68, 0.2);
+      border-left: 4px solid #ef4444;
+    }
+    
+    .info {
+      background: rgba(96, 165, 250, 0.2);
+      border-left: 4px solid #60a5fa;
+    }
+    
+    button {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px 10px 10px 0;
+    }
+    
+    button:hover {
+      background: #2563eb;
+    }
+    
+    #map-preview {
+      width: 100%;
+      height: 400px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    
+    .landmark-info {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(96, 165, 250, 0.1);
+      border-radius: 8px;
+      min-height: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🗺️ CultureLens Map Diagnostic Tool</h1>
+    
+    <div class="section">
+      <h2>Browser Compatibility</h2>
+      <div id="browser-tests"></div>
+    </div>
+    
+    <div class="section">
+      <h2>SVG Rendering Test</h2>
+      <div id="svg-tests"></div>
+      <svg id="map-preview" viewBox="0 0 100 60" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="testGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.3" />
+            <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.3" />
+          </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="100" height="60" fill="url(#testGradient)" opacity="0.3" />
+        <line x1="0" y1="30" x2="100" y2="30" stroke="rgba(255,255,255,0.2)" stroke-width="0.2" />
+        <line x1="50" y1="0" x2="50" y2="60" stroke="rgba(255,255,255,0.2)" stroke-width="0.2" />
+      </svg>
+    </div>
+    
+    <div class="section">
+      <h2>Interactive Pin Test</h2>
+      <div id="interaction-tests"></div>
+      <button onclick="addTestPins()">Add Test Pins</button>
+      <button onclick="clearTestPins()">Clear Pins</button>
+      <button onclick="testClickability()">Test Clickability</button>
+      <div class="landmark-info" id="landmark-info">Hover or click pins to test interaction</div>
+    </div>
+    
+    <div class="section">
+      <h2>React App Connection Test</h2>
+      <div id="react-tests"></div>
+      <button onclick="testReactApp()">Test React App</button>
+      <button onclick="testBackend()">Test Backend</button>
+    </div>
+    
+    <div class="section">
+      <h2>Console Output</h2>
+      <div id="console-output" style="font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto;"></div>
+    </div>
+  </div>
+
+  <script>
+    // Logging
+    const originalLog = console.log;
+    const consoleOutput = document.getElementById('console-output');
+    
+    console.log = function(...args) {
+      originalLog.apply(console, args);
+      const message = args.map(arg => 
+        typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+      ).join(' ');
+      const div = document.createElement('div');
+      div.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      div.style.marginBottom = '5px';
+      consoleOutput.appendChild(div);
+      consoleOutput.scrollTop = consoleOutput.scrollHeight;
+    };
+    
+    // Browser Tests
+    function runBrowserTests() {
+      const tests = document.getElementById('browser-tests');
+      const results = [];
+      
+      // SVG Support
+      results.push({
+        name: 'SVG Support',
+        pass: !!document.createElementNS && !!document.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect
+      });
+      
+      // CSS Transforms
+      results.push({
+        name: 'CSS Transforms',
+        pass: 'transform' in document.body.style
+      });
+      
+      // Pointer Events
+      results.push({
+        name: 'Pointer Events',
+        pass: 'onpointerenter' in window || 'onmouseenter' in window
+      });
+      
+      // ES6 Support
+      results.push({
+        name: 'ES6 Support',
+        pass: typeof Promise !== 'undefined' && typeof Map !== 'undefined'
+      });
+      
+      results.forEach(result => {
+        const div = document.createElement('div');
+        div.className = `test-result ${result.pass ? 'pass' : 'fail'}`;
+        div.textContent = `${result.pass ? '✓' : '✗'} ${result.name}`;
+        tests.appendChild(div);
+      });
+      
+      console.log('Browser tests completed:', results);
+    }
+    
+    // SVG Tests
+    function runSVGTests() {
+      const tests = document.getElementById('svg-tests');
+      const svg = document.getElementById('map-preview');
+      
+      const results = [
+        { name: 'SVG Element Created', pass: !!svg },
+        { name: 'ViewBox Set', pass: svg.getAttribute('viewBox') === '0 0 100 60' },
+        { name: 'Gradient Defined', pass: !!document.getElementById('testGradient') },
+        { name: 'SVG Visible', pass: svg.getBoundingClientRect().height > 0 }
+      ];
+      
+      results.forEach(result => {
+        const div = document.createElement('div');
+        div.className = `test-result ${result.pass ? 'pass' : 'fail'}`;
+        div.textContent = `${result.pass ? '✓' : '✗'} ${result.name}`;
+        tests.appendChild(div);
+      });
+      
+      console.log('SVG tests completed:', results);
+    }
+    
+    // Add Test Pins
+    function addTestPins() {
+      const svg = document.getElementById('map-preview');
+      const landmarks = [
+        { id: 'taj_mahal', name: 'Taj Mahal', country: 'India', x: 72, y: 52 },
+        { id: 'eiffel_tower', name: 'Eiffel Tower', country: 'France', x: 48, y: 35 },
+        { id: 'statue_liberty', name: 'Statue of Liberty', country: 'USA', x: 22, y: 38 }
+      ];
+      
+      // Clear existing pins
+      const existingPins = svg.querySelectorAll('.test-pin');
+      existingPins.forEach(pin => pin.remove());
+      
+      landmarks.forEach(landmark => {
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.setAttribute('class', 'test-pin');
+        g.setAttribute('transform', `translate(${landmark.x}, ${landmark.y})`);
+        g.setAttribute('data-name', landmark.name);
+        g.setAttribute('data-country', landmark.country);
+        g.style.cursor = 'pointer';
+        
+        // Shadow
+        const shadow = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+        shadow.setAttribute('cx', '0');
+        shadow.setAttribute('cy', '1.8');
+        shadow.setAttribute('rx', '1');
+        shadow.setAttribute('ry', '0.4');
+        shadow.setAttribute('fill', 'rgba(0,0,0,0.4)');
+        g.appendChild(shadow);
+        
+        // Pin body
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', 'M 0,-2.5 C -1.2,-2.5 -2,-1.7 -2,-0.5 C -2,1 0,2.5 0,2.5 C 0,2.5 2,1 2,-0.5 C 2,-1.7 1.2,-2.5 0,-2.5 Z');
+        path.setAttribute('fill', '#ef4444');
+        path.setAttribute('stroke', 'white');
+        path.setAttribute('stroke-width', '0.2');
+        g.appendChild(path);
+        
+        // Pin dot
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', '0');
+        circle.setAttribute('cy', '-1');
+        circle.setAttribute('r', '0.5');
+        circle.setAttribute('fill', 'white');
+        g.appendChild(circle);
+        
+        // Event listeners
+        g.addEventListener('mouseenter', () => {
+          g.style.transform = 'scale(1.4)';
+          g.style.filter = 'drop-shadow(0 0 10px rgba(239, 68, 68, 0.9))';
+          document.getElementById('landmark-info').textContent = `Hovering: ${landmark.name}, ${landmark.country}`;
+          console.log('Pin hovered:', landmark.name);
+        });
+        
+        g.addEventListener('mouseleave', () => {
+          g.style.transform = 'scale(1)';
+          g.style.filter = 'none';
+          document.getElementById('landmark-info').textContent = 'Hover or click pins to test interaction';
+        });
+        
+        g.addEventListener('click', () => {
+          alert(`Clicked: ${landmark.name}`);
+          console.log('Pin clicked:', landmark.name);
+        });
+        
+        svg.appendChild(g);
+      });
+      
+      console.log('Added', landmarks.length, 'test pins');
+      
+      const div = document.createElement('div');
+      div.className = 'test-result pass';
+      div.textContent = `✓ Added ${landmarks.length} test pins - try hovering and clicking!`;
+      document.getElementById('interaction-tests').appendChild(div);
+    }
+    
+    function clearTestPins() {
+      const svg = document.getElementById('map-preview');
+      const pins = svg.querySelectorAll('.test-pin');
+      pins.forEach(pin => pin.remove());
+      console.log('Cleared test pins');
+    }
+    
+    function testClickability() {
+      const pins = document.querySelectorAll('.test-pin');
+      const div = document.createElement('div');
+      div.className = `test-result ${pins.length > 0 ? 'pass' : 'fail'}`;
+      div.textContent = `${pins.length > 0 ? '✓' : '✗'} Found ${pins.length} clickable pins`;
+      document.getElementById('interaction-tests').appendChild(div);
+      console.log('Clickability test:', pins.length, 'pins found');
+    }
+    
+    // React App Test
+    async function testReactApp() {
+      const tests = document.getElementById('react-tests');
+      tests.innerHTML = '';
+      
+      try {
+        const response = await fetch('http://localhost:3000');
+        const div = document.createElement('div');
+        div.className = `test-result ${response.ok ? 'pass' : 'fail'}`;
+        div.textContent = `${response.ok ? '✓' : '✗'} React app is ${response.ok ? 'running' : 'not running'} on port 3000`;
+        tests.appendChild(div);
+        console.log('React app test:', response.status);
+      } catch (error) {
+        const div = document.createElement('div');
+        div.className = 'test-result fail';
+        div.textContent = '✗ React app is not running on port 3000';
+        tests.appendChild(div);
+        console.error('React app test failed:', error);
+      }
+    }
+    
+    // Backend Test
+    async function testBackend() {
+      const tests = document.getElementById('react-tests');
+      
+      try {
+        const response = await fetch('http://localhost:8000');
+        const data = await response.json();
+        const div = document.createElement('div');
+        div.className = `test-result ${response.ok ? 'pass' : 'fail'}`;
+        div.textContent = `${response.ok ? '✓' : '✗'} Backend is ${response.ok ? 'running' : 'not running'} on port 8000`;
+        tests.appendChild(div);
+        console.log('Backend test:', data);
+      } catch (error) {
+        const div = document.createElement('div');
+        div.className = 'test-result fail';
+        div.textContent = '✗ Backend is not running on port 8000';
+        tests.appendChild(div);
+        console.error('Backend test failed:', error);
+      }
+    }
+    
+    // Run tests on load
+    window.addEventListener('load', () => {
+      console.log('=== CultureLens Map Diagnostic Tool ===');
+      runBrowserTests();
+      runSVGTests();
+      console.log('Diagnostic tests completed. Click buttons to run interactive tests.');
+    });
+  </script>
+</body>
+</html>

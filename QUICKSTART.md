@@ -4,6 +4,7 @@
 - Python 3.8+ 
 - Node.js 16+
 - npm or yarn
+- OpenAI API key
 
 Check versions:
 ```bash
@@ -20,16 +21,22 @@ npm --version
 # Navigate to backend folder
 cd backend
 
+# Create virtual environment (recommended)
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
 # Install Python dependencies
-pip3 install -r requirements.txt
+pip install -r requirements.txt
+
+# Add your OpenAI API key to .env file
+# The .env file should already exist with the key configured
 
 # Start the API server
-python3 main.py
+python main.py
 ```
 
 You should see:
 ```
-✓ Using Hardcoded Cultural Agent (fast demo mode)
 INFO:     Uvicorn running on http://0.0.0.0:8000
 ```
 
@@ -48,40 +55,39 @@ Should return: `{"message":"CultureLens API","status":"running"}`
 
 ---
 
-## Step 3: Start the Mobile App (3 minutes)
+## Step 3: Start the Web App (2 minutes)
 
 Open a **new terminal** (keep backend running):
 
 ```bash
-# Navigate to mobile folder
-cd mobile
+# Navigate to webapp folder
+cd webapp
 
-# Install dependencies
+# Install dependencies (first time only)
 npm install
 
-# Start Expo
-npx expo start
+# Start the development server
+npm start
 ```
 
-You'll see a QR code and options:
-- Press `w` - Open in web browser (easiest)
-- Press `i` - Open iOS simulator (requires Xcode)
-- Press `a` - Open Android emulator (requires Android Studio)
+The app will automatically open in your browser at http://localhost:3000
 
 ---
 
 ## Step 4: Use the App
 
-### Quick Demo (No Camera Needed)
-1. Click **"🧪 Demo: Taj Mahal"**
-2. Switch between cultural lenses (Local, Asian, European, Indigenous)
-3. Scroll down to see bias transparency
+### Option 1: Explore the Interactive Map
+1. Click **"Explore Map"** on the home page
+2. Hover over red pins to see landmark details
+3. Click any pin to view its cultural perspectives
+4. Switch between cultural lenses (Local, Asian, European, Indigenous)
 
-### Camera Demo
-1. Click **"📷 Scan Monument"**
-2. Grant camera permission
-3. Point at anything and click "📸 Capture"
-4. View the interpretation
+### Option 2: Scan a Landmark
+1. Click **"Scan Landmark"** on the home page
+2. Choose **"Upload Image"** or **"Capture Live"**
+3. Upload a photo of a famous landmark
+4. View AI-powered recognition and cultural interpretations
+5. Explore bias transparency and community insights
 
 ---
 
@@ -110,32 +116,29 @@ lsof -ti:8000 | xargs kill -9
 # uvicorn.run(app, host="0.0.0.0", port=8001)
 ```
 
-### Mobile Issues
+**Missing OpenAI API key**
+- Make sure `.env` file exists in the backend folder
+- Check that `OPENAI_API_KEY` is set correctly
+
+### Web App Issues
 
 **"npm: command not found"**
 - Install Node.js from https://nodejs.org
 
 **"Cannot connect to backend"**
+- Make sure the backend is running on port 8000
+- Check that you see "Uvicorn running" in the backend terminal
+- Try accessing http://localhost:8000 in your browser
 
-If testing on a physical device, update the API URL:
-
-1. Find your computer's IP:
+**Port 3000 already in use**
 ```bash
-# macOS/Linux
-ifconfig | grep "inet " | grep -v 127.0.0.1
+# The app will ask if you want to use a different port
+# Press 'y' to use port 3001 instead
 ```
 
-2. Edit `mobile/app/result.tsx` line 7:
-```typescript
-const API_URL = 'http://YOUR_IP_HERE:8000';
-// Example: const API_URL = 'http://192.168.1.100:8000';
-```
-
-**Expo won't start**
-```bash
-# Clear cache
-npx expo start -c
-```
+**Video background not showing**
+- Copy your video file to `webapp/public/video/Culture Lens.mp4`
+- The video should be named exactly "Culture Lens.mp4"
 
 ---
 
@@ -146,9 +149,15 @@ culturelens/
 ├── backend/              # FastAPI server
 │   ├── main.py          # API endpoints
 │   ├── agents/          # AI agent modules
+│   ├── data/            # JSON data files
+│   ├── .env             # OpenAI API key
 │   └── requirements.txt
-├── mobile/              # React Native app
-│   ├── app/            # Expo Router pages
+├── webapp/              # React web app
+│   ├── src/
+│   │   ├── pages/      # Home, Camera, Map, Result
+│   │   └── App.js
+│   ├── public/
+│   │   └── video/      # Background video
 │   └── package.json
 └── README.md
 ```
@@ -158,17 +167,16 @@ culturelens/
 ## What's Running?
 
 - **Backend**: http://localhost:8000 (API server)
-- **Mobile**: http://localhost:8081 (Expo dev server)
-- **Web App**: Opens automatically in browser when you press `w`
+- **Web App**: http://localhost:3000 (React dev server)
 
 ---
 
 ## Next Steps
 
-1. ✅ Run the demo
+1. ✅ Run the app and explore the interactive map
 2. 📖 Read `DEMO.md` for presentation tips
-3. 🤖 Check `LLM_SETUP.md` to enable AI-powered interpretations
-4. 🎨 Customize cultural lenses in `backend/agents/cultural_agent.py`
+3. 🎨 Customize cultural lenses in `backend/agents/llm_cultural_agent.py`
+4. 📊 Check `IMPLEMENTATION_STATUS.md` to see what's implemented
 
 ---
 
@@ -176,10 +184,10 @@ culturelens/
 
 ```bash
 # Start backend
-cd backend && python3 main.py
+cd backend && source venv/bin/activate && python main.py
 
-# Start mobile (new terminal)
-cd mobile && npx expo start
+# Start webapp (new terminal)
+cd webapp && npm start
 
 # Test API
 curl http://localhost:8000/interpret \
@@ -196,18 +204,19 @@ curl http://localhost:8000/interpret \
 ## Need Help?
 
 - Backend not starting? Check Python version: `python3 --version` (need 3.8+)
-- Mobile not starting? Check Node version: `node --version` (need 16+)
+- Web app not starting? Check Node version: `node --version` (need 16+)
 - Can't connect? Make sure backend is running first
-- Still stuck? Check the full error message and search for it
+- Still stuck? Check the full error message
 
 ---
 
 ## Demo Tips
 
-1. Start with the **"🧪 Demo: Taj Mahal"** button (no camera needed)
-2. Show lens switching to demonstrate multiple perspectives
-3. Highlight the **bias transparency section** (AI for Good)
-4. Explain edge AI concept (camera processing stays on-device)
-5. Mention scalability (easy to add new landmarks and lenses)
+1. Start with the **"Explore Map"** to show the interactive world heritage map
+2. Click on different landmarks to demonstrate instant access
+3. Switch between cultural lenses to show multiple perspectives
+4. Highlight the **bias transparency section** (AI for Good)
+5. Show the **community sentiment** feature
+6. Try uploading a real landmark photo to demonstrate AI recognition
 
 Good luck! 🚀

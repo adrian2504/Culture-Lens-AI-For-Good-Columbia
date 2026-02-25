@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Result.css';
+import AudioPlayer from '../components/AudioPlayer';
 
 const API_URL = 'http://localhost:8000';
 
@@ -91,6 +92,12 @@ function Result({ navigateTo, landmark }) {
         <p className="narrative">{data.interpretation.narrative}</p>
         <p className="emotion">💭 {data.interpretation.emotional_context}</p>
       </div>
+
+      {/* Audio Player */}
+      <AudioPlayer 
+        objectId={landmark.objectId} 
+        culturalLens={currentLens}
+      />
 
       {/* Facts */}
       <div className="section facts-section">

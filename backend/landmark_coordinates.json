@@ -1,0 +1,16 @@
+[
+  {
+    "id": "taj_mahal",
+    "name": "Taj Mahal",
+    "country": "India",
+    "latitude": 27.174976,
+    "longitude": 78.04206
+  },
+  {
+    "id": "stonehenge",
+    "name": "Stonehenge",
+    "country": "UK",
+    "latitude": 51.1791,
+    "longitude": -1.827496
+  }
+]

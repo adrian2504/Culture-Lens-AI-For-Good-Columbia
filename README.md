@@ -18,9 +18,12 @@ Multi-agent AI system that provides:
 ## Features
 - 📸 Upload or capture photos of landmarks
 - 🤖 AI-powered landmark recognition
+- 🗺️ Interactive world map with 13 heritage sites
 - 🌍 Multiple cultural perspectives (Local, Asian, European, Indigenous)
 - ⚖️ Bias transparency with source analysis
-- 🎨 Beautiful, responsive web interface
+- 💬 Community sentiment and visitor reflections
+- 🎧 Audio narration in 10 languages (powered by ElevenLabs)
+- 🎨 Beautiful, responsive web interface with video background
 
 ## Tech Stack
 - **Frontend**: React web app
@@ -71,12 +74,19 @@ Open http://localhost:3000
 
 ## How It Works
 
+### Option 1: Scan a Landmark
 1. **Upload/Capture**: User uploads or captures a photo of a landmark
 2. **Vision Recognition**: OpenAI Vision API identifies the landmark
 3. **Knowledge Retrieval**: System fetches verified historical facts
 4. **Cultural Interpretation**: AI generates perspective-specific narratives
 5. **Bias Analysis**: System shows source distribution and missing perspectives
-6. **User Exploration**: User can switch between different cultural lenses
+6. **Community Insights**: View aggregated visitor sentiments and reflections
+7. **User Exploration**: User can switch between different cultural lenses
+
+### Option 2: Explore the Map
+1. **Interactive Map**: Browse 13 world heritage sites on an interactive map
+2. **Hover & Click**: Hover over pins to see landmark details, click to explore
+3. **Instant Access**: Jump directly to any landmark's cultural perspectives
 
 ## AI for Good Alignment
 ✅ Cultural preservation  
