@@ -1,0 +1,62 @@
+{
+  "taj_mahal": {
+    "emotions": {
+      "pride": 0.45,
+      "reverence": 0.30,
+      "wonder": 0.20,
+      "melancholy": 0.05
+    },
+    "themes": [
+      "Symbol of eternal love",
+      "Architectural masterpiece",
+      "National pride",
+      "Tourism impact on local community"
+    ],
+    "count": 1247,
+    "quotes": [
+      "As an Indian, seeing the Taj Mahal fills me with immense pride in our heritage.",
+      "The craftsmanship is breathtaking - you can feel the love that went into every detail.",
+      "It's beautiful but also sad to think about the workers who built it."
+    ]
+  },
+  "colosseum": {
+    "emotions": {
+      "awe": 0.40,
+      "reflection": 0.30,
+      "sadness": 0.20,
+      "fascination": 0.10
+    },
+    "themes": [
+      "Ancient engineering marvel",
+      "Dark history of gladiatorial combat",
+      "Symbol of Roman power",
+      "Reminder of human cruelty"
+    ],
+    "count": 892,
+    "quotes": [
+      "Standing here, you can almost hear the roar of the crowds from 2000 years ago.",
+      "It's magnificent but haunting - so many died here for entertainment.",
+      "A testament to what humans can build, for better or worse."
+    ]
+  },
+  "great_wall": {
+    "emotions": {
+      "pride": 0.50,
+      "respect": 0.25,
+      "sadness": 0.15,
+      "wonder": 0.10
+    },
+    "themes": [
+      "Symbol of Chinese resilience",
+      "Sacrifice of countless workers",
+      "Engineering achievement",
+      "Unity and protection"
+    ],
+    "count": 1534,
+    "quotes": [
+      "As a Chinese person, the Great Wall represents our ancestors' determination and sacrifice.",
+      "It's incredible, but we must remember the millions who died building it.",
+      "Walking on it, you feel connected to thousands of years of history."
+    ]
+  }
+}

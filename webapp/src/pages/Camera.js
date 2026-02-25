@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import './Camera.css';
 
@@ -12,19 +12,47 @@ function Camera({ navigateTo }) {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
+  // Ensure video plays when stream is set
+  useEffect(() => {
+    if (stream && videoRef.current) {
+      videoRef.current.srcObject = stream;
+      videoRef.current.play().catch(err => {
+        console.error('Error playing video:', err);
+      });
+    }
+  }, [stream]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, [stream]);
+
   const startCamera = async () => {
     try {
       const mediaStream = await navigator.mediaDevices.getUserMedia({ 
-        video: { facingMode: 'environment' } 
+        video: { 
+          facingMode: 'environment',
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
+        } 
       });
       setStream(mediaStream);
-      if (videoRef.current) {
-        videoRef.current.srcObject = mediaStream;
-      }
       setMode('camera');
       setError(null);
+      
+      // Wait for video element to be ready
+      setTimeout(() => {
+        if (videoRef.current) {
+          videoRef.current.srcObject = mediaStream;
+          videoRef.current.play();
+        }
+      }, 100);
     } catch (err) {
-      setError('Camera access denied. Please use upload instead.');
+      setError('Camera access denied. Please allow camera access and try again, or use upload instead.');
       console.error('Camera error:', err);
     }
   };
@@ -140,14 +168,23 @@ function Camera({ navigateTo }) {
               ref={videoRef} 
               autoPlay 
               playsInline
+              muted
               className="video-feed"
             />
             <canvas ref={canvasRef} style={{ display: 'none' }} />
             
-            <div className="camera-overlay">
-              <div className="camera-frame"></div>
-              <p className="instruction">Position landmark in frame</p>
-            </div>
+            {stream && (
+              <div className="camera-overlay">
+                <p className="instruction">Position landmark in frame</p>
+                <div className="camera-frame"></div>
+              </div>
+            )}
+            
+            {!stream && (
+              <div className="camera-overlay">
+                <p className="instruction">Starting camera...</p>
+              </div>
+            )}
           </div>
         )}
       </div>

@@ -101,6 +101,56 @@ function Result({ navigateTo, landmark }) {
         <div className="fact">🏗️ Material: {data.facts.material}</div>
       </div>
 
+      {/* Community Sentiment */}
+      {data.community_sentiment && data.community_sentiment.reflections_count > 0 && (
+        <div className="section community-section">
+          <h2>💬 Community Perspectives</h2>
+          <p className="community-count">
+            {data.community_sentiment.reflections_count} people have shared their perspectives
+          </p>
+          
+          {data.community_sentiment.emotions && Object.keys(data.community_sentiment.emotions).length > 0 && (
+            <>
+              <h3>Emotional Responses:</h3>
+              <div className="emotion-bars">
+                {Object.entries(data.community_sentiment.emotions).map(([emotion, value]) => (
+                  <div key={emotion} className="emotion-bar">
+                    <span className="emotion-label">{emotion}</span>
+                    <div className="emotion-bar-container">
+                      <div className="emotion-bar-fill" style={{ width: `${value * 100}%` }}></div>
+                    </div>
+                    <span className="emotion-percent">{Math.round(value * 100)}%</span>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {data.community_sentiment.common_themes && data.community_sentiment.common_themes.length > 0 && (
+            <>
+              <h3>Common Themes:</h3>
+              <div className="themes-list">
+                {data.community_sentiment.common_themes.map((theme, idx) => (
+                  <div key={idx} className="theme-tag">{theme}</div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {data.community_sentiment.sample_quotes && data.community_sentiment.sample_quotes.length > 0 && (
+            <>
+              <h3>Visitor Reflections:</h3>
+              {data.community_sentiment.sample_quotes.map((quote, idx) => (
+                <div key={idx} className="quote-card">
+                  <span className="quote-icon">"</span>
+                  <p>{quote}</p>
+                </div>
+              ))}
+            </>
+          )}
+        </div>
+      )}
+
       {/* Bias Report */}
       {data.bias_report && (
         <div className="section bias-section">

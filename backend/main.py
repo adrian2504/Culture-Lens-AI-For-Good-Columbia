@@ -13,6 +13,7 @@ from agents.vision_agent import VisionAgent
 from agents.knowledge_agent import KnowledgeAgent
 from agents.cultural_agent import CulturalAgent
 from agents.bias_agent import BiasAgent
+from agents.community_agent import CommunityAgent
 
 # Optional: LLM-powered cultural agent
 USE_LLM = os.getenv("USE_LLM", "false").lower() == "true"
@@ -48,6 +49,7 @@ else:
     print("✅ Using Hardcoded Cultural Agent (fast demo mode)")
 
 bias_agent = BiasAgent()
+community_agent = CommunityAgent()
 
 
 class AnalysisRequest(BaseModel):
@@ -93,11 +95,15 @@ def interpret_heritage(request: AnalysisRequest):
         lens=request.cultural_lens
     )
     
+    # 4. Community Sentiment
+    community_sentiment = community_agent.get_sentiment(request.object_id)
+    
     return {
         "object_id": request.object_id,
         "facts": facts,
         "interpretation": interpretation,
         "bias_report": bias_report,
+        "community_sentiment": community_sentiment,
         "available_lenses": cultural_agent.get_available_lenses(request.object_id)
     }
 
