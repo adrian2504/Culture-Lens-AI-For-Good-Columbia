@@ -1,0 +1,25 @@
+{
+  "name": "culturelens",
+  "version": "1.0.0",
+  "description": "<div align=\"center\">",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adrian2504/Culture-Lens-AI-For-Good-Columbia.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/adrian2504/Culture-Lens-AI-For-Good-Columbia/issues"
+  },
+  "homepage": "https://github.com/adrian2504/Culture-Lens-AI-For-Good-Columbia#readme",
+  "dependencies": {
+    "axios": "^1.13.5",
+    "express": "^5.2.1"
+  }
+}
