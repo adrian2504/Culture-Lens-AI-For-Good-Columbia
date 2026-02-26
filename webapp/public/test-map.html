@@ -1,160 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Map Test</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 40px;
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      min-height: 100vh;
-      font-family: Arial, sans-serif;
-    }
-    
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(20px);
-      border-radius: 30px;
-      padding: 40px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    h1 {
-      color: white;
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    
-    svg {
-      width: 100%;
-      height: auto;
-      display: block;
-      min-height: 400px;
-    }
-    
-    .landmark-pin {
-      cursor: pointer;
-      transition: all 0.3s ease;
-      transform-origin: center;
-    }
-    
-    .landmark-pin:hover {
-      transform: scale(1.4);
-      filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.9));
-    }
-    
-    .pulse-ring {
-      animation: pulse 2s infinite;
-    }
-    
-    @keyframes pulse {
-      0% {
-        r: 2;
-        opacity: 0.6;
-      }
-      100% {
-        r: 4;
-        opacity: 0;
-      }
-    }
-    
-    #info {
-      color: white;
-      text-align: center;
-      margin-top: 20px;
-      font-size: 18px;
-      min-height: 30px;
-    }
-  </style>
+    <title>Leaflet Test</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { height: 100vh; width: 100vw; }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Interactive Map Test</h1>
-    <svg viewBox="0 0 100 60" preserveAspectRatio="xMidYMid meet">
-      <defs>
-        <linearGradient id="mapGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.3" />
-          <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.3" />
-        </linearGradient>
-      </defs>
-      
-      <!-- Background -->
-      <rect x="0" y="0" width="100" height="60" fill="url(#mapGradient)" opacity="0.3" />
-      
-      <!-- Grid lines -->
-      <line x1="0" y1="30" x2="100" y2="30" stroke="rgba(255,255,255,0.2)" stroke-width="0.2" />
-      <line x1="50" y1="0" x2="50" y2="60" stroke="rgba(255,255,255,0.2)" stroke-width="0.2" />
-      
-      <!-- Test Pin 1: Taj Mahal -->
-      <g class="landmark-pin" transform="translate(72, 52)" data-name="Taj Mahal" data-country="India">
-        <ellipse cx="0" cy="1.8" rx="1" ry="0.4" fill="rgba(0,0,0,0.4)" />
-        <path
-          d="M 0,-2.5 C -1.2,-2.5 -2,-1.7 -2,-0.5 C -2,1 0,2.5 0,2.5 C 0,2.5 2,1 2,-0.5 C 2,-1.7 1.2,-2.5 0,-2.5 Z"
-          fill="#ef4444"
-          stroke="white"
-          stroke-width="0.2"
-        />
-        <circle cx="0" cy="-1" r="0.5" fill="white" />
-        <circle cx="0" cy="0" r="2" fill="none" stroke="#ef4444" stroke-width="0.15" opacity="0.6" class="pulse-ring" />
-      </g>
-      
-      <!-- Test Pin 2: Eiffel Tower -->
-      <g class="landmark-pin" transform="translate(48, 35)" data-name="Eiffel Tower" data-country="France">
-        <ellipse cx="0" cy="1.8" rx="1" ry="0.4" fill="rgba(0,0,0,0.4)" />
-        <path
-          d="M 0,-2.5 C -1.2,-2.5 -2,-1.7 -2,-0.5 C -2,1 0,2.5 0,2.5 C 0,2.5 2,1 2,-0.5 C 2,-1.7 1.2,-2.5 0,-2.5 Z"
-          fill="#ef4444"
-          stroke="white"
-          stroke-width="0.2"
-        />
-        <circle cx="0" cy="-1" r="0.5" fill="white" />
-        <circle cx="0" cy="0" r="2" fill="none" stroke="#ef4444" stroke-width="0.15" opacity="0.6" class="pulse-ring" />
-      </g>
-      
-      <!-- Test Pin 3: Statue of Liberty -->
-      <g class="landmark-pin" transform="translate(22, 38)" data-name="Statue of Liberty" data-country="USA">
-        <ellipse cx="0" cy="1.8" rx="1" ry="0.4" fill="rgba(0,0,0,0.4)" />
-        <path
-          d="M 0,-2.5 C -1.2,-2.5 -2,-1.7 -2,-0.5 C -2,1 0,2.5 0,2.5 C 0,2.5 2,1 2,-0.5 C 2,-1.7 1.2,-2.5 0,-2.5 Z"
-          fill="#ef4444"
-          stroke="white"
-          stroke-width="0.2"
-        />
-        <circle cx="0" cy="-1" r="0.5" fill="white" />
-        <circle cx="0" cy="0" r="2" fill="none" stroke="#ef4444" stroke-width="0.15" opacity="0.6" class="pulse-ring" />
-      </g>
-    </svg>
-    <div id="info">Hover over or click the red pins</div>
-  </div>
+    <div id="map"></div>
+    <script>
+        // Initialize map
+        var map = L.map('map').setView([20, 0], 2);
 
-  <script>
-    const pins = document.querySelectorAll('.landmark-pin');
-    const info = document.getElementById('info');
-    
-    pins.forEach(pin => {
-      pin.addEventListener('mouseenter', () => {
-        const name = pin.getAttribute('data-name');
-        const country = pin.getAttribute('data-country');
-        info.textContent = `${name}, ${country}`;
-        console.log('Hovered:', name);
-      });
-      
-      pin.addEventListener('mouseleave', () => {
-        info.textContent = 'Hover over or click the red pins';
-      });
-      
-      pin.addEventListener('click', () => {
-        const name = pin.getAttribute('data-name');
-        alert(`Clicked: ${name}`);
-        console.log('Clicked:', name);
-      });
-    });
-    
-    console.log('Test map loaded with', pins.length, 'pins');
-  </script>
+        // Add tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Add a test marker
+        var marker = L.marker([27.1751, 78.0421]).addTo(map);
+        marker.bindPopup("<b>Taj Mahal</b><br>India").openPopup();
+
+        console.log('Map initialized successfully!');
+    </script>
 </body>
 </html>

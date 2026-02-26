@@ -1,11 +1,29 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import './Home.css';
 
 function Home({ navigateTo }) {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    // Handle video autoplay with error handling
+    if (videoRef.current) {
+      videoRef.current.play().catch(error => {
+        // Silently handle autoplay errors (common in Safari)
+        console.log('Video autoplay prevented:', error.message);
+      });
+    }
+  }, []);
+
   return (
     <div className="home-container">
       {/* Video Background */}
-      <video autoPlay loop muted playsInline className="video-background">
+      <video 
+        ref={videoRef}
+        loop 
+        muted 
+        playsInline 
+        className="video-background"
+      >
         <source src="/video/Culture Lens.mp4" type="video/mp4" />
       </video>
       

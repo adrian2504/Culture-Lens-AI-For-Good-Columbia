@@ -144,17 +144,19 @@ class AudioAgent:
     
     def generate_narration(self, landmark_data: Dict, language: str = 'english') -> str:
         """
-        Generate narration text from landmark data
+        Generate SHORT narration text from landmark data (to save API credits)
         """
         facts = landmark_data.get('facts', {})
         interpretation = landmark_data.get('interpretation', {})
         
-        # Create a narrative combining facts and interpretation
-        narration = f"{facts.get('name', 'This landmark')} is located in {facts.get('location', 'an amazing place')}. "
-        narration += f"It was built in {facts.get('built', 'ancient times')}. "
+        # Create a SHORT narrative (max 2-3 sentences to save credits)
+        narration = f"{facts.get('name', 'This landmark')} is located in {facts.get('location', 'an amazing place')}, "
+        narration += f"built in {facts.get('built', 'ancient times')}. "
         
+        # Add just the first sentence of interpretation if available
         if interpretation.get('narrative'):
-            narration += interpretation['narrative']
+            first_sentence = interpretation['narrative'].split('.')[0] + '.'
+            narration += first_sentence
         
         return narration
     

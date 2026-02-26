@@ -43,9 +43,26 @@ function AudioPlayer({ objectId, culturalLens }) {
         const audioUrl = URL.createObjectURL(audioBlob);
         
         if (audioRef.current) {
+          // Safari fix: set src and load before playing
           audioRef.current.src = audioUrl;
-          audioRef.current.play();
-          setIsPlaying(true);
+          audioRef.current.load();
+          
+          // Use promise-based play with error handling
+          try {
+            await audioRef.current.play();
+            setIsPlaying(true);
+          } catch (playError) {
+            console.error('Playback error:', playError);
+            // Retry once for Safari
+            setTimeout(async () => {
+              try {
+                await audioRef.current.play();
+                setIsPlaying(true);
+              } catch (retryError) {
+                alert('Audio playback failed. Please try again.');
+              }
+            }, 100);
+          }
         }
       } else {
         console.error('Failed to generate audio');
@@ -81,8 +98,14 @@ function AudioPlayer({ objectId, culturalLens }) {
     <div className="audio-player">
       <audio
         ref={audioRef}
+        preload="auto"
         onEnded={() => setIsPlaying(false)}
         onPause={() => setIsPlaying(false)}
+        onError={(e) => {
+          console.error('Audio error:', e);
+          setIsPlaying(false);
+          setLoading(false);
+        }}
       />
 
       <div className="audio-controls">

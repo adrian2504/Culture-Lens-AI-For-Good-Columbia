@@ -1,101 +1,328 @@
-# CultureLens 🌍
+# 🌍 CultureLens - See What Others See
 
-**AI-powered, culturally adaptive guide for art, monuments, and heritage**
+<div align="center">
 
-## One-Line Pitch
-CultureLens uses AI vision and culturally adaptive agents to help people understand art and heritage through many perspectives—not just one.
+**An AI-powered platform that transforms how we experience cultural heritage by revealing multiple perspectives on the same monument, artwork, or historical site.**
 
-## Problem
-Most cultural guides present a single "official" narrative, often reflecting Western or colonial bias. This leads to cultural erasure and shallow understanding.
+[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![React](https://img.shields.io/badge/React-18.2+-61DAFB.svg)](https://reactjs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg)](https://fastapi.tiangolo.com/)
+[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o-412991.svg)](https://openai.com/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-## Solution
-Multi-agent AI system that provides:
-- **Vision Agent**: Real image recognition using OpenAI Vision API
-- **Knowledge Agent**: Verified historical facts
-- **Cultural Interpretation Agent**: AI-generated adaptive explanations across cultural lenses
-- **Bias & Ethics Agent**: Source transparency and missing perspectives
+[Demo](#demo) • [Features](#features) • [Quick Start](#quick-start) • [Architecture](#architecture) • [Contributing](#contributing)
+
+</div>
+
+---
+
+## 🎯 The Problem
+
+I love visiting museums, historical places, and religious sites. But when I walk through places like Washington Square Park and see names like Giuseppe Garibaldi or Sybil Ludington, I often wonder who they are. While these figures may be well known within the local culture and history, someone like me, who isn't from here, may not understand their significance or the role they played, and as a result, the importance of the sculpture can be lost.
+
+On the other hand, if I learn more about who this person was, what they stood for, or how their story connects to my own culture or experiences, I can engage with the artwork on a much deeper level. That context transforms the sculpture from something I simply pass by into something I can truly understand and appreciate.
+
+**Today's digital guides and AI systems present culture through a single dominant narrative**, often shaped by historical power imbalances, colonial perspectives, or limited datasets. This risks reducing rich, living cultures into simplified explanations and unintentionally marginalizing voices that do not fit a "standard" interpretation.
+
+## 💡 Our Solution
+
+**CultureLens** is an AI-agent based computer vision application designed to transform how people experience art, monuments, and cultural heritage by **embracing diversity as a source of knowledge** rather than a problem of cultural barriers.
+
+By combining edge-based computer vision, agent-driven AI reasoning, and community-informed perspectives, CultureLens allows users to point their camera at a painting or monument and receive explanations through **multiple cultural lenses**. These lenses reflect how people from different backgrounds—such as local communities, religious traditions, or regional cultures—interpret meaning, emotion, and historical significance differently.
+
+**Rather than asking "What is the correct explanation?", CultureLens asks: "How do different people understand the same heritage, and why?"**
+
+This shift is the core of our **AI for Good** mission.
+
+---
 
 ## Features
-- 📸 Upload or capture photos of landmarks
-- 🤖 AI-powered landmark recognition
-- 🗺️ Interactive world map with 13 heritage sites
-- 🌍 Multiple cultural perspectives (Local, Asian, European, Indigenous)
-- ⚖️ Bias transparency with source analysis
-- 💬 Community sentiment and visitor reflections
-- 🎧 Audio narration in 10 languages (powered by ElevenLabs)
-- 🎨 Beautiful, responsive web interface with video background
 
-## Tech Stack
-- **Frontend**: React web app
-- **Backend**: FastAPI + Python
-- **AI**: OpenAI GPT-4o-mini (Vision + Text)
-- **Agent System**: Modular Python architecture
+### AI-Powered Recognition
+- **GPT-4o Vision API** for accurate landmark and monument identification
+- Real-time image analysis with confidence scoring
+- Support for 13+ world heritage sites (expandable)
+
+### Multiple Cultural Perspectives
+- **5 AI Agents** working together to provide diverse viewpoints:
+  - **Vision Agent**: Identifies landmarks using computer vision
+  - **Knowledge Agent**: Provides historical facts and context
+  - **Cultural Agent**: Interprets significance through different cultural lenses (Local, Western, Eastern, Indigenous)
+  - **Bias Agent**: Reveals historical biases and power dynamics
+  - **Community Agent**: Shares visitor experiences and emotional responses
+
+### Interactive World Map
+- Explore 13 world heritage sites on a realistic map
+- Accurate geographic positioning with OpenStreetMap
+- Click any marker to dive into cultural analysis
+
+### Multilingual Audio Narration
+- **10 languages supported**: English, Spanish, Hindi, Italian, French, German, Portuguese, Chinese, Japanese, Arabic
+- AI-powered translation using OpenAI GPT-4o-mini
+- Natural voice synthesis with ElevenLabs multilingual TTS
+- Listen to cultural perspectives in your preferred language
+
+### Bias Transparency
+- Exposes colonial narratives and historical power imbalances
+- Highlights marginalized perspectives
+- Promotes critical thinking about cultural heritage
+
+### Community Insights
+- Aggregated visitor emotions and themes
+- Real quotes from diverse perspectives
+- Crowdsourced cultural understanding
+
+---
 
 ## Quick Start
 
-### 1. Backend Setup
+### Prerequisites
+
+- **Python 3.9+**
+- **Node.js 16+** and npm
+- **OpenAI API Key** ([Get one here](https://platform.openai.com/api-keys))
+- **ElevenLabs API Key** ([Get one here](https://elevenlabs.io/)) - Optional, for audio features
+
+### 1. Clone the Repository
+
 ```bash
+git clone https://github.com/yourusername/CultureLens.git
+cd CultureLens
+```
+
+### 2. Backend Setup
+
+```bash
+# Navigate to backend directory
 cd backend
-python3 -m venv venv
+
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# On macOS/Linux:
 source venv/bin/activate
+# On Windows:
+# venv\Scripts\activate
+
+# Install dependencies
 pip install -r requirements.txt
 
-# Add your OpenAI API key to .env
-echo "USE_LLM=true" > .env
-echo "LLM_PROVIDER=openai" >> .env
-echo "OPENAI_API_KEY=your-key-here" >> .env
+# Configure environment variables
+cp .env.example .env
+# Edit .env and add your API keys:
+# OPENAI_API_KEY=your_openai_key_here
+# ELEVENLABS_API_KEY=your_elevenlabs_key_here (optional)
 
+# Start the backend server
 python main.py
 ```
 
-### 2. Web App Setup
+The backend will start on `http://localhost:8000`
+
+### 3. Frontend Setup
+
+Open a new terminal:
+
 ```bash
+# Navigate to webapp directory
 cd webapp
+
+# Install dependencies
 npm install
+
+# Start the development server
 npm start
 ```
 
-Open http://localhost:3000
+The webapp will open automatically at `http://localhost:3000`
+
+### 4. Start Exploring!
+
+1. **Scan a Landmark**: Click "Scan Landmark" and upload an image
+2. **Choose a Lens**: Select Local, Western, Eastern, or Indigenous perspective
+3. **Listen**: Choose a language and hear the narration
+4. **Explore Map**: Browse 13 world heritage sites on the interactive map
+
+---
+
+## Architecture
+
+### Multi-Agent AI System
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     CultureLens Platform                     │
+├─────────────────────────────────────────────────────────────┤
+│                                                               │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
+│  │ Vision Agent │  │Knowledge Agent│  │Cultural Agent│      │
+│  │  (GPT-4o)    │→ │  (GPT-4o-mini)│→ │ (GPT-4o-mini)│      │
+│  └──────────────┘  └──────────────┘  └──────────────┘      │
+│         ↓                  ↓                  ↓              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
+│  │  Bias Agent  │  │Community Agent│  │  Audio Agent │      │
+│  │(GPT-4o-mini) │  │ (GPT-4o-mini) │  │ (ElevenLabs) │      │
+│  └──────────────┘  └──────────────┘  └──────────────┘      │
+│                                                               │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Tech Stack
+
+**Backend:**
+- FastAPI (Python web framework)
+- OpenAI GPT-4o & GPT-4o-mini (Vision & Language models)
+- ElevenLabs API (Text-to-speech with translation)
+- Pydantic (Data validation)
+
+**Frontend:**
+- React 18 (UI framework)
+- Leaflet.js (Interactive maps)
+- Axios (API communication)
+- CSS3 (Styling with gradients and animations)
+
+**Data:**
+- JSON-based landmark database
+- Community sentiment data
+- Historical bias annotations
+
+---
 
 ## Supported Landmarks
-- Taj Mahal
-- Colosseum
-- Great Wall of China
-- Statue of Liberty
-- Pyramids of Giza
-- Eiffel Tower
-- Big Ben
-- Christ the Redeemer
-- Machu Picchu
-- Petra
-- Angkor Wat
-- Stonehenge
-- Acropolis
 
-## How It Works
+Currently supporting 13 world heritage sites:
 
-### Option 1: Scan a Landmark
-1. **Upload/Capture**: User uploads or captures a photo of a landmark
-2. **Vision Recognition**: OpenAI Vision API identifies the landmark
-3. **Knowledge Retrieval**: System fetches verified historical facts
-4. **Cultural Interpretation**: AI generates perspective-specific narratives
-5. **Bias Analysis**: System shows source distribution and missing perspectives
-6. **Community Insights**: View aggregated visitor sentiments and reflections
-7. **User Exploration**: User can switch between different cultural lenses
+🇮🇳 Taj Mahal | 🇫🇷 Eiffel Tower | 🇺🇸 Statue of Liberty | 🇮🇹 Colosseum
+🇨🇳 Great Wall | 🇪🇬 Pyramids of Giza | 🇵🇪 Machu Picchu | 🇧🇷 Christ the Redeemer
+🇬🇧 Big Ben | 🇬🇧 Stonehenge | 🇬🇷 Acropolis | 🇯🇴 Petra | 🇰🇭 Angkor Wat
 
-### Option 2: Explore the Map
-1. **Interactive Map**: Browse 13 world heritage sites on an interactive map
-2. **Hover & Click**: Hover over pins to see landmark details, click to explore
-3. **Instant Access**: Jump directly to any landmark's cultural perspectives
+*Easily expandable by adding entries to `backend/data/landmarks.json`*
 
-## AI for Good Alignment
-✅ Cultural preservation  
-✅ Diversity & inclusion  
-✅ Bias transparency  
-✅ Accessible education  
-✅ Respectful AI
+---
 
-## Cost
-- Image recognition: ~$0.003 per image
-- Cultural interpretation: ~$0.0001 per lens
-- Total per lookup: ~$0.004 (very affordable)
+## Cultural Lenses
+
+### Local Perspective
+Understanding through the eyes of the community where the heritage exists
+
+### Western Perspective
+Historical and academic interpretation from Western scholarship
+
+### Eastern Perspective
+Philosophical and cultural understanding from Eastern traditions
+
+### Indigenous Perspective
+Original narratives and spiritual significance from indigenous peoples
+
+---
+
+## Configuration
+
+### Environment Variables
+
+Create a `.env` file in the `backend` directory:
+
+```env
+# LLM Configuration
+USE_LLM=true
+LLM_PROVIDER=openai
+OPENAI_API_KEY=your_openai_api_key_here
+
+# ElevenLabs Configuration (for audio narration)
+ELEVENLABS_API_KEY=your_elevenlabs_api_key_here
+```
+
+### Adding New Landmarks
+
+Edit `backend/data/landmarks.json`:
+
+```json
+{
+  "landmark_id": {
+    "name": "Landmark Name",
+    "location": "City, Country",
+    "built": "Year or Period",
+    "significance": "Brief description",
+    "coordinates": {
+      "lat": 0.0000,
+      "lon": 0.0000
+    }
+  }
+}
+```
+
+---
+
+## Use Cases
+
+### Education
+- Students learning about world history from multiple perspectives
+- Teachers presenting diverse cultural viewpoints in classrooms
+
+### Tourism
+- Travelers gaining deeper understanding of monuments they visit
+- Tour guides offering multilingual, multi-perspective narratives
+
+### Museums
+- Interactive exhibits that adapt to visitor backgrounds
+- Accessibility features for diverse audiences
+
+### Research
+- Scholars studying how cultural heritage is interpreted differently
+- Bias detection in historical narratives
+
+---
+
+## Contributing
+
+We welcome contributions! Here's how you can help:
+
+1. **Add New Landmarks**: Expand our database with more heritage sites
+2. **Improve Cultural Lenses**: Enhance perspective accuracy and depth
+3. **Add Languages**: Support more languages for audio narration
+4. **Fix Bugs**: Report and fix issues
+5. **Improve Documentation**: Help others understand and use CultureLens
+
+### Development Workflow
+
+```bash
+# Fork the repository
+# Create a feature branch
+git checkout -b feature/amazing-feature
+
+# Make your changes
+# Commit with clear messages
+git commit -m "Add amazing feature"
+
+# Push to your fork
+git push origin feature/amazing-feature
+
+# Open a Pull Request
+```
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## Acknowledgments
+
+- **OpenAI** for GPT-4o and GPT-4o-mini models
+- **ElevenLabs** for multilingual text-to-speech technology
+- **OpenStreetMap** contributors for map data
+- **VibeFlow** main idea and content flow
+- **Kiro** for development
+- **Cultural heritage communities** worldwide for inspiring this project
+
+---
+
+## Contact
+
+**Project Maintainer**: [Adrian Dsouza]
+- Email: ad7628@nyu.edu
+- GitHub: [@adrian2504](https://github.com/adrian2504)
+
