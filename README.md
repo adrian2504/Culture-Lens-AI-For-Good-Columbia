@@ -16,7 +16,7 @@
 
 ---
 
-## 🎯 The Problem
+## The Problem
 
 I love visiting museums, historical places, and religious sites. But when I walk through places like Washington Square Park and see names like Giuseppe Garibaldi or Sybil Ludington, I often wonder who they are. While these figures may be well known within the local culture and history, someone like me, who isn't from here, may not understand their significance or the role they played, and as a result, the importance of the sculpture can be lost.
 
@@ -24,7 +24,7 @@ On the other hand, if I learn more about who this person was, what they stood fo
 
 **Today's digital guides and AI systems present culture through a single dominant narrative**, often shaped by historical power imbalances, colonial perspectives, or limited datasets. This risks reducing rich, living cultures into simplified explanations and unintentionally marginalizing voices that do not fit a "standard" interpretation.
 
-## 💡 Our Solution
+##  My Solution
 
 **CultureLens** is an AI-agent based computer vision application designed to transform how people experience art, monuments, and cultural heritage by **embracing diversity as a source of knowledge** rather than a problem of cultural barriers.
 
@@ -83,61 +83,9 @@ This shift is the core of our **AI for Good** mission.
 - **OpenAI API Key** ([Get one here](https://platform.openai.com/api-keys))
 - **ElevenLabs API Key** ([Get one here](https://elevenlabs.io/)) - Optional, for audio features
 
-### 1. Clone the Repository
 
-```bash
-git clone https://github.com/yourusername/CultureLens.git
-cd CultureLens
-```
 
-### 2. Backend Setup
-
-```bash
-# Navigate to backend directory
-cd backend
-
-# Create virtual environment
-python -m venv venv
-
-# Activate virtual environment
-# On macOS/Linux:
-source venv/bin/activate
-# On Windows:
-# venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Configure environment variables
-cp .env.example .env
-# Edit .env and add your API keys:
-# OPENAI_API_KEY=your_openai_key_here
-# ELEVENLABS_API_KEY=your_elevenlabs_key_here (optional)
-
-# Start the backend server
-python main.py
-```
-
-The backend will start on `http://localhost:8000`
-
-### 3. Frontend Setup
-
-Open a new terminal:
-
-```bash
-# Navigate to webapp directory
-cd webapp
-
-# Install dependencies
-npm install
-
-# Start the development server
-npm start
-```
-
-The webapp will open automatically at `http://localhost:3000`
-
-### 4. Start Exploring!
+###  Start Exploring!
 
 1. **Scan a Landmark**: Click "Scan Landmark" and upload an image
 2. **Choose a Lens**: Select Local, Western, Eastern, or Indigenous perspective
@@ -217,42 +165,6 @@ Original narratives and spiritual significance from indigenous peoples
 
 ---
 
-## Configuration
-
-### Environment Variables
-
-Create a `.env` file in the `backend` directory:
-
-```env
-# LLM Configuration
-USE_LLM=true
-LLM_PROVIDER=openai
-OPENAI_API_KEY=your_openai_api_key_here
-
-# ElevenLabs Configuration (for audio narration)
-ELEVENLABS_API_KEY=your_elevenlabs_api_key_here
-```
-
-### Adding New Landmarks
-
-Edit `backend/data/landmarks.json`:
-
-```json
-{
-  "landmark_id": {
-    "name": "Landmark Name",
-    "location": "City, Country",
-    "built": "Year or Period",
-    "significance": "Brief description",
-    "coordinates": {
-      "lat": 0.0000,
-      "lon": 0.0000
-    }
-  }
-}
-```
-
----
 
 ## Use Cases
 
@@ -274,40 +186,13 @@ Edit `backend/data/landmarks.json`:
 
 ---
 
-## Contributing
-
-We welcome contributions! Here's how you can help:
-
 1. **Add New Landmarks**: Expand our database with more heritage sites
 2. **Improve Cultural Lenses**: Enhance perspective accuracy and depth
 3. **Add Languages**: Support more languages for audio narration
 4. **Fix Bugs**: Report and fix issues
 5. **Improve Documentation**: Help others understand and use CultureLens
 
-### Development Workflow
 
-```bash
-# Fork the repository
-# Create a feature branch
-git checkout -b feature/amazing-feature
-
-# Make your changes
-# Commit with clear messages
-git commit -m "Add amazing feature"
-
-# Push to your fork
-git push origin feature/amazing-feature
-
-# Open a Pull Request
-```
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
 
 ## Acknowledgments
 
