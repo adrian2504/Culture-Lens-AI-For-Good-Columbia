@@ -1,16 +1,8 @@
-# 🌍 CultureLens - See What Others See
+# CultureLens - See What Others See
 
 <div align="center">
 
 **An AI-powered platform that transforms how we experience cultural heritage by revealing multiple perspectives on the same monument, artwork, or historical site.**
-
-[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![React](https://img.shields.io/badge/React-18.2+-61DAFB.svg)](https://reactjs.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg)](https://fastapi.tiangolo.com/)
-[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o-412991.svg)](https://openai.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-
-[Demo](#demo) • [Features](#features) • [Quick Start](#quick-start) • [Architecture](#architecture) • [Contributing](#contributing)
 
 </div>
 
