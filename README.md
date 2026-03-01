@@ -28,6 +28,24 @@ This shift is the core of our **AI for Good** mission.
 
 ---
 
+## Why CultureLens exists (the non-tech reason)
+
+Cultural heritage isn’t just architecture, dates, and Wikipedia summaries. It’s identity, memory, power, and lived experience — and different communities will interpret the same landmark in genuinely different ways.
+
+So CultureLens tries to answer:
+
+What does this landmark mean locally to the people who live near it?
+
+How might it be framed through a European historical/architectural lens?
+
+What changes when you interpret it from an Asian lens (craft, ancestry, spirituality, continuity)?
+
+How does an Indigenous lens shift the story toward land, sacredness, and traditional knowledge?
+
+Instead of hiding the disagreement, CultureLens highlights it. And instead of pretending the system is “neutral,” it shows the user what sources dominate and what perspectives are under-represented.
+
+----- 
+
 ## Features
 
 ### AI-Powered Recognition
